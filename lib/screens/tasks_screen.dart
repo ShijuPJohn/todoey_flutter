@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todoey_flutter/models/task.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
 
-
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [
+    Task(name: 'Buy milk'),
+    Task(name: 'Pay bill'),
+    Task(name: 'Buy bread'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +54,7 @@ class TasksScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${tasks.length} tasks',
                   style: TextStyle(fontSize: 18.0, color: Colors.white),
                 ),
                 SizedBox(
@@ -57,7 +66,7 @@ class TasksScreen extends StatelessWidget {
           Expanded(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20.0),
-              child: TasksList(),
+              child: TasksList(tasks: tasks),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -72,7 +81,17 @@ class TasksScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.lightBlueAccent,
         onPressed: () {
-          showModalBottomSheet(context: context, builder: (context)=>AddTaskScreen());
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => AddTaskScreen(
+                    addTasks: (newValue) {
+                      setState(() {
+                        tasks.add(Task(
+                          name: newValue,
+                        ));
+                      });
+                    },
+                  ));
         },
         child: Icon(
           Icons.add,
@@ -81,4 +100,3 @@ class TasksScreen extends StatelessWidget {
     );
   }
 }
-

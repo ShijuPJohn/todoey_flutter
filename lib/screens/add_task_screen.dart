@@ -2,8 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddTaskScreen extends StatelessWidget {
+  final Function addTasks;
+  static String newTaskName;
+
+  AddTaskScreen({this.addTasks});
+
   @override
   Widget build(BuildContext context) {
+
     return Container(
       height: 400.0,
       color: Color(0xFF757575),
@@ -32,18 +38,18 @@ class AddTaskScreen extends StatelessWidget {
             TextField(
               textAlign: TextAlign.center,
               onChanged: (value) {
-                //TODO
+                newTaskName = value;
               },
               autofocus: true,
             ),
             FlatButton(
-              color: Colors.lightBlueAccent,
-              textColor: Colors.white,
-              child: Text('Add Task'),
-              onPressed: (){
-                //TODO
-              }
-            ),
+                color: Colors.lightBlueAccent,
+                textColor: Colors.white,
+                child: Text('Add Task'),
+                onPressed: () {
+                  addTasks(newTaskName);
+                  Navigator.pop(context);
+                }),
           ],
         ),
       ),
